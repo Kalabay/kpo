@@ -1,0 +1,182 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Music Library API"
+  },
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/songs": {
+      "get": {
+        "summary": "Get a list of songs",
+        "responses": {
+          "200": {
+            "description": "List of songs",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/songs/{id}": {
+      "get": {
+        "summary": "Get information about a specific song",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true,
+            "description": "Numeric ID of the user to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Information about song",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Song"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/playlists": {
+      "post": {
+        "summary": "Create a new playlist",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "playlist",
+            "in": "body",
+            "description": "Playlist to create",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/playlists/{id}/songs": {
+      "post": {
+        "summary": "Add a song to a playlist with the given ID",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "song",
+            "in": "body",
+            "description": "Song to add to the playlist",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "song_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "song_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "post": {
+        "summary": "Add a rating to a song",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "Rating to add to the song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "song_id": {
+                  "type": "integer"
+                },
+                "rating": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "song_id",
+                "rating"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Rating added to the song successfully"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+      "Song": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "artist": {
+            "type": "string"
+          },
+          "genre": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer"
+          },
+          "album": {
+            "type": "string"
+          }
+        }
+      }
+    }
+}
